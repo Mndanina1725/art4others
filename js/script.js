@@ -1,4 +1,3 @@
-
 document.getElementById('donate-btn').addEventListener('click', function () {
   const amount = document.getElementById('amount').value;
   if (amount) {
@@ -8,4 +7,7 @@ document.getElementById('donate-btn').addEventListener('click', function () {
     alert('Please enter a valid donation amount.');
   }
 });
+
+
+
 
