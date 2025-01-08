@@ -8,21 +8,13 @@ body {
   line-height: 1.6;
 }
 
-/* Hero Section */
-.hero-banner {
-  width: 60%; /* Adjust this value to control the width */
-  height: auto; /* Maintain aspect ratio */
-  margin-bottom: 1rem;
-  border-radius: 10px; /* Optional: Adjust the rounding of the corners */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Optional: Adjust shadow effect */
-}
-
+/* Header */
 header {
   background: linear-gradient(45deg, #2C3E50, #34495E); /* Deep blue-gray gradient */
   color: white;
-  padding: 1rem 1rem;
+  padding: 1rem;
   text-align: center;
-  position: relative; /* To position the logo container inside the header */
+  position: relative;
 }
 
 header h1 {
@@ -51,26 +43,33 @@ nav a:hover {
 /* Logo and Tagline */
 .logo-container {
   position: absolute;
-  top: 10px; /* Adjust this to move the logo vertically */
-  right: 10px; /* Adjust this to move the logo horizontally */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  top: 10px; /* Adjust to fine-tune the vertical positioning */
+  right: 10px; /* Push to the far-right corner */
+  text-align: center;
 }
 
 .logo {
-  width: 50px; /* Smaller size for the logo */
+  width: 60px; /* Smaller size for the logo */
   height: auto;
-  border-radius: 5px;
-  margin-bottom: 5px;
 }
 
 .tagline {
   font-size: 0.9rem;
   color: white;
   font-weight: bold;
-  text-align: center; /* Center-align the text under the logo */
+  margin-top: 0.5rem;
 }
+
+/* Hero Section */
+.hero-banner {
+  width: 60%; /* Adjust this percentage to control the width relative to the container */
+  height: auto; /* Maintain the aspect ratio */
+  margin: 0 auto 1rem; /* Center the image horizontally */
+  border-radius: 10px; /* Adjust rounding of the corners */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Optional: Add shadow for better presentation */
+}
+
+
 
 /* Quote Section */
 #quote blockquote {
@@ -155,18 +154,24 @@ section {
   margin-top: 1rem;
 }
 
+#work .gallery a {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+}
+
 #work .gallery img {
   width: 250px;
   height: 150px;
   object-fit: cover;
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, filter 0.3s ease;
 }
 
-#work .gallery a {
-  position: relative;
-  display: inline-block;
+#work .gallery img:hover {
+  transform: scale(1.05);
+  filter: brightness(0.8); /* Dim the image on hover */
 }
 
 #work .gallery a span {
@@ -175,11 +180,10 @@ section {
   left: 50%;
   transform: translate(-50%, -50%);
   color: white;
-  background: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.7);
   padding: 0.5rem 1rem;
-  border-radius: 5px;
   font-size: 1rem;
-  text-align: center;
+  border-radius: 5px;
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -237,29 +241,23 @@ footer {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .logo-container {
-    top: 5px;
-    right: 5px;
+  #work .gallery img,
+  .member-gallery img {
+    width: 100%;
+    height: auto;
   }
 
   .logo {
-    width: 40px;
+    width: 50px; /* Adjust logo size for smaller screens */
   }
 
-  .tagline {
-    font-size: 0.8rem;
-  }
-
-  #work .gallery img {
-    width: 200px;
-    height: 120px;
-  }
-
-  #catalogue .gallery img {
-    width: 250px;
-    height: 150px;
+  #work .gallery a span {
+    font-size: 0.8rem; /* Adjust hover title size for smaller screens */
   }
 }
+
+
+
 
 
 
