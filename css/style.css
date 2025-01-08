@@ -17,6 +17,31 @@ header {
   position: relative;
 }
 
+/* Catalogue Logo and Quote Section */
+.catalogue-logo-container {
+  position: absolute;
+  top: 10px; /* Position it at the top */
+  right: 10px; /* Align it to the far right */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.catalogue-logo {
+  width: 60px; /* Match the logo size as in the index.html */
+  height: auto;
+  margin-bottom: 5px; /* Space between the logo and the quote */
+}
+
+.catalogue-tagline {
+  font-size: 0.9rem; /* Same size for the quote text */
+  color: white; /* White text for the quote */
+  font-weight: bold;
+  text-align: center;
+}
+
+
+
 header h1 {
   font-size: 2.5rem;
   margin: 0;
@@ -46,11 +71,13 @@ nav a:hover {
   top: 10px; /* Adjust to fine-tune the vertical positioning */
   right: 10px; /* Push to the far-right corner */
   text-align: center;
+
 }
 
 .logo {
   width: 60px; /* Smaller size for the logo */
   height: auto;
+
 }
 
 .tagline {
@@ -58,6 +85,7 @@ nav a:hover {
   color: white;
   font-weight: bold;
   margin-top: 0.5rem;
+
 }
 
 /* Hero Section */
