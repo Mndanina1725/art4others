@@ -287,8 +287,8 @@ footer {
 
 .slideshow-container {
   position: relative;
-  width: 250px; /* Matches the size of team images */
-  height: 250px; /* Matches the size of team images */
+  width: 300px; /* Matches the size of team images */
+  height: 300px; /* Matches the size of team images */
   margin: 0 auto;
   overflow: hidden;
   border-radius: 10px;
