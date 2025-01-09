@@ -42,5 +42,3 @@ function startSlideshow(containerId) {
 startSlideshow('angelena-slideshow');
 startSlideshow('martin-slideshow');
 startSlideshow('azaria-slideshow');
-
-
