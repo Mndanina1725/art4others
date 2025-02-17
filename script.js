@@ -42,3 +42,27 @@ function startSlideshow(containerId) {
 startSlideshow('angelena-slideshow');
 startSlideshow('martin-slideshow');
 startSlideshow('azaria-slideshow');
+
+// Light/Dark Mode Toggle
+const themeToggleBtn = document.getElementById('theme-toggle');
+const body = document.body;
+
+// Load saved theme preference
+if (localStorage.getItem('theme') === 'dark') {
+  body.classList.add('dark-mode');
+  themeToggleBtn.textContent = '☀️ Light Mode';
+}
+
+// Toggle theme on button click
+themeToggleBtn.addEventListener('click', () => {
+  body.classList.toggle('dark-mode');
+
+  if (body.classList.contains('dark-mode')) {
+    localStorage.setItem('theme', 'dark');
+    themeToggleBtn.textContent = '☀️ Light Mode';
+  } else {
+    localStorage.setItem('theme', 'light');
+    themeToggleBtn.textContent = '🌙 Dark Mode';
+  }
+});
+

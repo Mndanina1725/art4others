@@ -9,7 +9,7 @@ document.getElementById('donate-btn')?.addEventListener('click', function () {
   }
 });
 
-// Slideshow Functionality
+// Slideshow Functionality with Navigation
 function startSlideshow(containerId) {
   const container = document.getElementById(containerId);
   if (!container) {
@@ -18,8 +18,9 @@ function startSlideshow(containerId) {
   }
 
   const images = container.querySelectorAll('.slideshow-image');
+  const prevBtn = container.querySelector('.prev-btn');
+  const nextBtn = container.querySelector('.next-btn');
 
-  // Log the container ID and the images NodeList
   console.log(`Initializing slideshow for container: ${containerId}`);
   console.log(`Images found in ${containerId}:`, images);
 
@@ -30,17 +31,34 @@ function startSlideshow(containerId) {
 
   let currentIndex = 0;
 
-  setInterval(() => {
-    console.log(`Changing image in ${containerId} to index: ${currentIndex}`);
-    images[currentIndex].classList.remove('active');
+  const updateSlide = (index) => {
+    images.forEach((img, i) => img.classList.toggle('active', i === index));
+  };
+
+  const nextSlide = () => {
     currentIndex = (currentIndex + 1) % images.length;
-    images[currentIndex].classList.add('active');
-  }, 3000); // Change slide every 3 seconds
+    updateSlide(currentIndex);
+  };
+
+  const prevSlide = () => {
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    updateSlide(currentIndex);
+  };
+
+  updateSlide(currentIndex);
+
+  nextBtn?.addEventListener('click', nextSlide);
+  prevBtn?.addEventListener('click', prevSlide);
+
+  setInterval(nextSlide, 3000); // Automatically change slides every 3 seconds
 }
 
 // Initialize slideshows for each team member
 startSlideshow('angelena-slideshow');
 startSlideshow('martin-slideshow');
 startSlideshow('azaria-slideshow');
+
+
+
 
 
