@@ -7,7 +7,9 @@ body {
   color: #333;
   line-height: 1.6;
 }
-
+ html {
+   scrool-behavior: smooth;
+ }
 /* Header */
 header {
   background: linear-gradient(45deg, #2C3E50, #34495E); /* Deep blue-gray gradient */
