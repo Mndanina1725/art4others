@@ -1,15 +1,42 @@
-// Handle donation button click (if this feature still exists)
-document.getElementById('donate-btn')?.addEventListener('click', function () {
-  const amount = document.getElementById('amount').value;
-  if (amount) {
-    alert(`Thank you for your generous donation of $${amount}!`);
-    document.getElementById('donate-form').reset();
-  } else {
-    alert('Please enter a valid donation amount.');
-  }
+// ============================================
+// SMOOTH SCROLLING FOR ANCHOR LINKS
+// ============================================
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Smooth scroll for anchor links
+  const anchorLinks = document.querySelectorAll('a[href^="#"]');
+  
+  anchorLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      const href = this.getAttribute('href');
+      
+      // Skip if it's just "#" or empty
+      if (href === '#' || href === '') {
+        return;
+      }
+      
+      const target = document.querySelector(href);
+      
+      if (target) {
+        e.preventDefault();
+        
+        const headerOffset = 80;
+        const elementPosition = target.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
 });
 
-// Slideshow Functionality with Navigation
+// ============================================
+// SLIDESHOW FUNCTIONALITY
+// ============================================
+
 function startSlideshow(containerId) {
   const container = document.getElementById(containerId);
   if (!container) {
@@ -21,46 +48,118 @@ function startSlideshow(containerId) {
   const prevBtn = container.querySelector('.prev-btn');
   const nextBtn = container.querySelector('.next-btn');
 
-  console.log(`Initializing slideshow for container: ${containerId}`);
-  console.log(`Images found in ${containerId}:`, images);
-
   if (images.length === 0) {
     console.log(`No images found in container with ID: ${containerId}`);
     return;
   }
 
   let currentIndex = 0;
+  let autoSlideInterval;
 
   const updateSlide = (index) => {
-    images.forEach((img, i) => img.classList.toggle('active', i === index));
+    images.forEach((img, i) => {
+      img.classList.toggle('active', i === index);
+    });
   };
 
   const nextSlide = () => {
     currentIndex = (currentIndex + 1) % images.length;
     updateSlide(currentIndex);
+    resetAutoSlide();
   };
 
   const prevSlide = () => {
     currentIndex = (currentIndex - 1 + images.length) % images.length;
     updateSlide(currentIndex);
+    resetAutoSlide();
   };
 
+  const startAutoSlide = () => {
+    autoSlideInterval = setInterval(nextSlide, 4000); // Change slide every 4 seconds
+  };
+
+  const resetAutoSlide = () => {
+    clearInterval(autoSlideInterval);
+    startAutoSlide();
+  };
+
+  // Add accessibility attributes
+  if (prevBtn) {
+    prevBtn.setAttribute('aria-label', 'Previous image');
+    prevBtn.setAttribute('type', 'button');
+    prevBtn.addEventListener('click', prevSlide);
+  }
+
+  if (nextBtn) {
+    nextBtn.setAttribute('aria-label', 'Next image');
+    nextBtn.setAttribute('type', 'button');
+    nextBtn.addEventListener('click', nextSlide);
+  }
+
+  // Pause auto-slide on hover
+  container.addEventListener('mouseenter', () => {
+    clearInterval(autoSlideInterval);
+  });
+
+  container.addEventListener('mouseleave', () => {
+    startAutoSlide();
+  });
+
+  // Initialize
   updateSlide(currentIndex);
-
-  nextBtn?.addEventListener('click', nextSlide);
-  prevBtn?.addEventListener('click', prevSlide);
-
-  setInterval(nextSlide, 3000); // Automatically change slides every 3 seconds
+  startAutoSlide();
 }
 
-// Initialize slideshows for each team member
-startSlideshow('angelena-slideshow');
-startSlideshow('martin-slideshow');
-startSlideshow('azaria-slideshow');
+// ============================================
+// INITIALIZE ALL SLIDESHOWS
+// ============================================
 
+document.addEventListener('DOMContentLoaded', function() {
+  startSlideshow('angelena-slideshow');
+  startSlideshow('martin-slideshow');
+  startSlideshow('azaria-slideshow');
+});
 
+// ============================================
+// ENHANCE GALLERY IMAGES WITH LAZY LOADING
+// ============================================
 
+document.addEventListener('DOMContentLoaded', function() {
+  const galleryImages = document.querySelectorAll('.gallery img');
+  
+  // Add loading="lazy" attribute for better performance
+  galleryImages.forEach(img => {
+    if (!img.hasAttribute('loading')) {
+      img.setAttribute('loading', 'lazy');
+    }
+  });
+});
 
+// ============================================
+// ADD SMOOTH FADE-IN ANIMATION ON SCROLL
+// ============================================
 
+document.addEventListener('DOMContentLoaded', function() {
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
 
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, observerOptions);
 
+  // Observe sections for fade-in effect
+  const sections = document.querySelectorAll('section');
+  sections.forEach(section => {
+    section.style.opacity = '0';
+    section.style.transform = 'translateY(20px)';
+    section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(section);
+  });
+});
