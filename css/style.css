@@ -263,9 +263,11 @@ section {
   background: #ffffff;
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
   border-radius: 16px;
-  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+  transition: box-shadow 0.3s ease;
   opacity: 1;
   transform: translateY(0);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 400px;
 }
 
 section.js-animate:not(.animate-in) {
@@ -280,7 +282,6 @@ section.js-animate.animate-in {
 
 section:hover {
   box-shadow: 0 4px 30px rgba(99, 102, 241, 0.1);
-  transform: translateY(-2px);
 }
 
 section h2 {
@@ -337,6 +338,7 @@ section h2::after {
   box-shadow: 0 8px 30px rgba(99, 102, 241, 0.15);
   display: block;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  contain: layout style paint;
 }
 
 .hero-banner:hover {
@@ -418,6 +420,7 @@ section h2::after {
   border-radius: 16px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
   background: #f0f0f0;
+  contain: layout paint;
 }
 
 .slideshow-image {
@@ -520,7 +523,8 @@ section h2::after {
   object-fit: cover;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  will-change: auto;
 }
 
 #work .gallery a:hover img {
@@ -617,8 +621,9 @@ section h2::after {
   object-fit: cover;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
   cursor: pointer;
+  will-change: auto;
 }
 
 #catalogue .gallery img:hover {

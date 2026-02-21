@@ -172,45 +172,42 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ============================================
-// ENHANCE GALLERY IMAGES WITH LAZY LOADING
+// IMAGE PERFORMANCE (lazy load + async decode)
 // ============================================
 
 document.addEventListener('DOMContentLoaded', function() {
-  const galleryImages = document.querySelectorAll('.gallery img');
-  
-  // Add loading="lazy" attribute for better performance
-  galleryImages.forEach(img => {
+  var images = document.querySelectorAll('img');
+  for (var i = 0; i < images.length; i++) {
+    var img = images[i];
     if (!img.hasAttribute('loading')) {
       img.setAttribute('loading', 'lazy');
     }
-  });
+    img.setAttribute('decoding', 'async');
+  }
 });
 
 // ============================================
-// ADD SMOOTH FADE-IN ANIMATION ON SCROLL
+// LIGHTWEIGHT SCROLL FADE-IN (runs once per section)
 // ============================================
 
 document.addEventListener('DOMContentLoaded', function() {
-  const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-  };
+  var sections = document.querySelectorAll('section');
+  if (!sections.length) return;
 
-  const observer = new IntersectionObserver(function(entries) {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
+  var observer = new IntersectionObserver(
+    function(entries) {
+      for (var i = 0; i < entries.length; i++) {
+        var entry = entries[i];
+        if (entry.isIntersecting) {
+          entry.target.classList.add('section-visible');
+          observer.unobserve(entry.target);
+        }
       }
-    });
-  }, observerOptions);
+    },
+    { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
+  );
 
-  // Observe sections for fade-in effect
-  const sections = document.querySelectorAll('section');
-  sections.forEach(section => {
-    section.style.opacity = '0';
-    section.style.transform = 'translateY(20px)';
-    section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    observer.observe(section);
-  });
+  for (var j = 0; j < sections.length; j++) {
+    observer.observe(sections[j]);
+  }
 });
