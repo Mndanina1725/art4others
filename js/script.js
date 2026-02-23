@@ -172,6 +172,100 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ============================================
+// CATALOGUE SLIDESHOWS
+// ============================================
+
+document.addEventListener('DOMContentLoaded', function() {
+  var slideshows = document.querySelectorAll('.catalogue-slideshow');
+  for (var s = 0; s < slideshows.length; s++) {
+    (function() {
+      var container = slideshows[s];
+      var track = container.querySelector('.catalogue-slides');
+      var slides = track ? track.querySelectorAll('.catalogue-slide') : [];
+      var prevBtn = container.querySelector('.catalogue-prev');
+      var nextBtn = container.querySelector('.catalogue-next');
+      var dotsEl = container.querySelector('.catalogue-dots');
+      var total = slides.length;
+      var index = 0;
+
+      if (total === 0) return;
+
+      // Load catalogue slide images immediately so switching doesn't lag
+      for (var p = 0; p < slides.length; p++) {
+        var slideImg = slides[p].querySelector('img');
+        if (slideImg) {
+          slideImg.setAttribute('loading', 'eager');
+        }
+      }
+
+      // Preload all images so next/prev don't lag
+      for (var p = 0; p < slides.length; p++) {
+        var im = slides[p].querySelector('img');
+        if (im && im.src) {
+          var preload = new Image();
+          preload.src = im.src;
+        }
+      }
+
+      // Decode current and next image so they're ready to display
+      function decodeAdjacent() {
+        var curr = slides[index];
+        var nextIdx = (index + 1) % total;
+        var prevIdx = (index - 1 + total) % total;
+        [curr, slides[nextIdx], slides[prevIdx]].forEach(function(slide) {
+          var img = slide && slide.querySelector('img');
+          if (img && img.decode) {
+            img.decode().catch(function() {});
+          }
+        });
+      }
+
+      function showSlide(idx) {
+        index = (idx + total) % total;
+        for (var i = 0; i < slides.length; i++) {
+          slides[i].classList.toggle('active', i === index);
+        }
+        if (dotsEl) {
+          var dots = dotsEl.querySelectorAll('.catalogue-dot');
+          for (var d = 0; d < dots.length; d++) {
+            dots[d].classList.toggle('active', d === index);
+          }
+        }
+        decodeAdjacent();
+      }
+
+      if (dotsEl && total > 1) {
+        for (var d = 0; d < total; d++) {
+          var dot = document.createElement('button');
+          dot.type = 'button';
+          dot.className = 'catalogue-dot' + (d === 0 ? ' active' : '');
+          dot.setAttribute('aria-label', 'Go to slide ' + (d + 1));
+          dot.addEventListener('click', function() {
+            var i = parseInt(this.getAttribute('data-index'), 10);
+            showSlide(i);
+          });
+          dot.setAttribute('data-index', String(d));
+          dotsEl.appendChild(dot);
+        }
+      }
+
+      showSlide(0);
+
+      if (prevBtn) {
+        prevBtn.addEventListener('click', function() {
+          showSlide(index - 1);
+        });
+      }
+      if (nextBtn) {
+        nextBtn.addEventListener('click', function() {
+          showSlide(index + 1);
+        });
+      }
+    })();
+  }
+});
+
+// ============================================
 // IMAGE PERFORMANCE (lazy load + async decode)
 // ============================================
 
@@ -179,7 +273,10 @@ document.addEventListener('DOMContentLoaded', function() {
   var images = document.querySelectorAll('img');
   for (var i = 0; i < images.length; i++) {
     var img = images[i];
-    if (!img.hasAttribute('loading')) {
+    var inCatalogueSlideshow = img.closest && img.closest('.catalogue-slideshow');
+    if (inCatalogueSlideshow) {
+      img.setAttribute('loading', 'eager');
+    } else if (!img.hasAttribute('loading')) {
       img.setAttribute('loading', 'lazy');
     }
     img.setAttribute('decoding', 'async');
